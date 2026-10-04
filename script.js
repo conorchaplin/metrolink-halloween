@@ -116,7 +116,7 @@
 
     disputeButton?.addEventListener("click", () => {
       disputeMessage.textContent =
-        "DISPUTE REQUEST REJECTED. Reason: the Inspector has determined that you are, in fact, a menace.";
+        "DISPUTE REQUEST REJECTED. Reason: the Inspector has determined that you are, in fact, a menace to society and a plague upon Manchester.";
       disputeMessage.hidden = false;
       disputeButton.disabled = true;
     });
