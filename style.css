@@ -1,0 +1,793 @@
+:root {
+  --pantone-109: #FFD100;
+  --black: #050505;
+  --black-soft: #111111;
+  --ink: #181818;
+  --grey: #727272;
+  --light-grey: #E7E7E7;
+  --white: #FFFFFF;
+  --green: #22C55E;
+  --red: #D71920;
+  --max-phone: 440px;
+}
+
+* {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html,
+body {
+  margin: 0;
+  min-width: 100%;
+  min-height: 100%;
+  background: var(--black);
+  color: var(--ink);
+  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+}
+
+body {
+  min-height: 100dvh;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+.app {
+  min-height: 100dvh;
+}
+
+/* =========================================================
+   SHARED
+   ========================================================= */
+
+.screen {
+  width: 100%;
+  min-height: 100dvh;
+}
+
+.eyebrow {
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: 0.16em;
+  line-height: 1.2;
+}
+
+.field-label {
+  display: block;
+  margin-bottom: 5px;
+  color: #777;
+  font-size: 9px;
+  font-weight: 900;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+/* =========================================================
+   INSPECTOR CONSOLE
+   The entire terminal is rotated 180° so it reads upright
+   to the passenger when the inspector holds the phone out.
+   ========================================================= */
+
+.inspector-screen {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 50% 0%, #292929 0, #0C0C0C 35%, #000 75%);
+  padding:
+    env(safe-area-inset-top)
+    env(safe-area-inset-right)
+    env(safe-area-inset-bottom)
+    env(safe-area-inset-left);
+}
+
+.inspector-viewport {
+  width: min(100vw, var(--max-phone));
+  min-height: 100dvh;
+  padding: 12px 14px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  background: #F5F5F5;
+  transform: rotate(180deg);
+  transform-origin: center center;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Yellow/black top area */
+
+.terminal-header {
+  overflow: hidden;
+  border: 2px solid var(--black);
+  background: var(--black);
+}
+
+.brand-strip {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  min-height: 62px;
+  padding: 7px 8px;
+  background: var(--pantone-109);
+  border-bottom: 2px solid var(--black);
+}
+
+.bee-logo {
+  width: 150px;
+  height: 50px;
+  object-fit: contain;
+  object-position: left center;
+}
+
+.tfgm-logo {
+  width: 126px;
+  height: 48px;
+  object-fit: contain;
+  object-position: right center;
+  background: #FFFFFF;
+}
+
+.terminal-title-block {
+  padding: 10px 11px 11px;
+  color: var(--white);
+}
+
+.terminal-title-block h1 {
+  margin: 4px 0 9px;
+  font-size: clamp(17px, 4.4vw, 21px);
+  font-weight: 950;
+  line-height: 0.98;
+  letter-spacing: -0.03em;
+}
+
+.terminal-meta {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  color: #D0D0D0;
+  font-size: 8px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+}
+
+/* Status */
+
+.terminal-status {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 39px;
+  padding: 0 11px;
+  border: 1px solid #CFCFCF;
+  background: var(--white);
+  color: var(--black);
+  font-size: 10px;
+  font-weight: 950;
+  letter-spacing: 0.12em;
+}
+
+.status-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.status-light,
+.notice-dot {
+  width: 9px;
+  height: 9px;
+  flex: 0 0 auto;
+  border-radius: 50%;
+  background: var(--green);
+  box-shadow: 0 0 0 2px rgba(34, 197, 94, 0.15), 0 0 12px rgba(34, 197, 94, 0.85);
+  animation: blink 1s infinite;
+}
+
+.status-code {
+  color: #5A5A5A;
+  font-size: 8px;
+}
+
+@keyframes blink {
+  0%, 42% { opacity: 1; }
+  50%, 72% { opacity: 0.2; }
+  80%, 100% { opacity: 1; }
+}
+
+/* Scan panel */
+
+.scan-panel {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 82px;
+  padding: 13px;
+  background: var(--pantone-109);
+  border: 2px solid var(--black);
+  color: var(--black);
+}
+
+.scan-icon {
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  border: 2px solid var(--black);
+  border-radius: 8px;
+  font-size: 31px;
+  line-height: 1;
+  font-weight: 900;
+}
+
+.scan-label {
+  font-size: 8px;
+  font-weight: 950;
+  letter-spacing: 0.16em;
+}
+
+.scan-instruction {
+  margin-top: 4px;
+  font-size: clamp(13px, 3.6vw, 16px);
+  font-weight: 950;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+}
+
+/* Credential */
+
+.credential-panel,
+.processing-panel,
+.result-panel {
+  border: 1px solid #CFCFCF;
+  background: var(--white);
+}
+
+.panel-heading,
+.processing-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 9px 10px;
+  border-bottom: 1px solid #D9D9D9;
+  font-size: 9px;
+  font-weight: 950;
+  letter-spacing: 0.13em;
+}
+
+.mini-state {
+  padding: 3px 5px;
+  background: #EFEFEF;
+  color: #555;
+  font-size: 7px;
+  letter-spacing: 0.08em;
+}
+
+.credential-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.credential-grid > div {
+  min-height: 58px;
+  padding: 9px 10px;
+  border-right: 1px solid #E4E4E4;
+  border-bottom: 1px solid #E4E4E4;
+}
+
+.credential-grid > div:nth-child(2n) {
+  border-right: 0;
+}
+
+.credential-grid strong {
+  display: block;
+  font-size: 12px;
+  line-height: 1.15;
+}
+
+/* Processing */
+
+.processing-panel {
+  padding-bottom: 10px;
+}
+
+.processing-message {
+  min-height: 27px;
+  padding: 8px 10px 0;
+  color: #555;
+  font-size: 10px;
+  line-height: 1.25;
+}
+
+.progress-track {
+  height: 5px;
+  margin: 9px 10px 0;
+  overflow: hidden;
+  background: #E4E4E4;
+}
+
+.progress-bar {
+  width: 0%;
+  height: 100%;
+  background: var(--pantone-109);
+  transition: width 0.08s linear;
+}
+
+/* Result */
+
+.result-panel {
+  border: 2px solid var(--black);
+}
+
+.result-top {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 11px;
+  background: var(--black);
+  color: var(--white);
+}
+
+.result-icon {
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
+  background: var(--pantone-109);
+  color: var(--black);
+  font-size: 23px;
+  font-weight: 950;
+}
+
+.result-kicker {
+  margin-bottom: 2px;
+  color: var(--pantone-109);
+  font-size: 7px;
+  font-weight: 950;
+  letter-spacing: 0.14em;
+}
+
+.result-top h2 {
+  margin: 0;
+  font-size: 16px;
+  line-height: 1;
+}
+
+.result-details {
+  padding: 2px 10px;
+}
+
+.result-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 8px 0;
+  border-bottom: 1px solid #E6E6E6;
+  font-size: 10px;
+}
+
+.result-row span {
+  color: #666;
+  font-weight: 800;
+}
+
+.result-row strong {
+  text-align: right;
+}
+
+.fare-box {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin: 9px 10px;
+  padding: 10px 11px;
+  background: var(--pantone-109);
+  color: var(--black);
+  border: 2px solid var(--black);
+}
+
+.fare-box span {
+  font-size: 9px;
+  font-weight: 950;
+  letter-spacing: 0.1em;
+}
+
+.fare-box strong {
+  font-size: 22px;
+  font-weight: 950;
+}
+
+.offence-box {
+  margin: 0 10px 10px;
+  padding: 9px;
+  background: #F5F5F5;
+  border-left: 4px solid var(--black);
+}
+
+.offence-box p {
+  margin: 0;
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+/* Buttons */
+
+.terminal-actions {
+  display: grid;
+  grid-template-columns: 1fr 0.78fr;
+  gap: 7px;
+}
+
+.primary-button,
+.secondary-button {
+  min-height: 43px;
+  border: 2px solid var(--black);
+  font-size: 9px;
+  font-weight: 950;
+  letter-spacing: 0.09em;
+}
+
+.primary-button {
+  background: var(--pantone-109);
+  color: var(--black);
+}
+
+.primary-button:active {
+  transform: scale(0.985);
+}
+
+.secondary-button {
+  background: var(--white);
+  color: var(--black);
+}
+
+.primary-button:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+
+.terminal-footer {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 2px 1px;
+  color: #777;
+  font-size: 7px;
+  font-weight: 900;
+  letter-spacing: 0.13em;
+}
+
+/* =========================================================
+   PASSENGER PHONE
+   ========================================================= */
+
+.passenger-screen {
+  display: flex;
+  justify-content: center;
+  background:
+    linear-gradient(#000 0, #000 96px, #F2F2F2 96px, #F2F2F2 100%);
+  padding:
+    env(safe-area-inset-top)
+    env(safe-area-inset-right)
+    env(safe-area-inset-bottom)
+    env(safe-area-inset-left);
+}
+
+.passenger-shell {
+  width: min(100%, var(--max-phone));
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  background: #F2F2F2;
+}
+
+.passenger-header {
+  background: var(--black);
+  color: var(--white);
+}
+
+.passenger-brand-row {
+  min-height: 61px;
+  display: flex;
+  align-items: center;
+  padding: 7px 12px;
+  background: var(--pantone-109);
+}
+
+.passenger-bee-logo {
+  width: 158px;
+  height: 47px;
+  object-fit: contain;
+  object-position: left center;
+}
+
+.passenger-header-copy {
+  padding: 14px 15px 16px;
+}
+
+.passenger-header-copy h1 {
+  margin: 5px 0 11px;
+  color: var(--white);
+  font-size: 27px;
+  font-weight: 950;
+  line-height: 0.95;
+  letter-spacing: -0.045em;
+}
+
+.header-rule {
+  width: 54px;
+  height: 5px;
+  background: var(--pantone-109);
+}
+
+/* Passenger processing */
+
+.passenger-processing {
+  flex: 1;
+  min-height: 310px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 28px;
+  text-align: center;
+  background: #F2F2F2;
+}
+
+.processing-spinner {
+  width: 43px;
+  height: 43px;
+  margin-bottom: 18px;
+  border: 4px solid #D6D6D6;
+  border-top-color: var(--black);
+  border-radius: 50%;
+  animation: spin 0.85s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.passenger-processing .processing-kicker {
+  color: #555;
+  font-size: 9px;
+  font-weight: 950;
+  letter-spacing: 0.13em;
+}
+
+.passenger-processing h2 {
+  margin: 7px 0 7px;
+  font-size: 22px;
+  line-height: 1;
+}
+
+.passenger-processing p {
+  max-width: 280px;
+  margin: 0;
+  color: #666;
+  font-size: 11px;
+  line-height: 1.35;
+}
+
+/* Passenger result */
+
+.passenger-result {
+  padding: 13px 14px 18px;
+}
+
+.notice-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 32px;
+  padding: 0 9px;
+  background: var(--black);
+  color: var(--white);
+  font-size: 8px;
+  font-weight: 950;
+  letter-spacing: 0.1em;
+}
+
+.notice-bar .notice-dot {
+  width: 7px;
+  height: 7px;
+  animation: none;
+  box-shadow: 0 0 7px rgba(34, 197, 94, 0.85);
+}
+
+.passenger-title {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 18px 0 15px;
+}
+
+.warning-symbol {
+  width: 43px;
+  height: 43px;
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
+  background: var(--pantone-109);
+  border: 2px solid var(--black);
+  color: var(--black);
+  font-size: 27px;
+  font-weight: 950;
+}
+
+.passenger-title .eyebrow {
+  color: #666;
+}
+
+.passenger-title h2 {
+  margin: 4px 0 0;
+  font-size: 20px;
+  font-weight: 950;
+  line-height: 0.98;
+  letter-spacing: -0.025em;
+}
+
+.passenger-summary {
+  padding: 12px 11px;
+  background: var(--white);
+  border: 1px solid #D5D5D5;
+}
+
+.summary-label {
+  margin-bottom: 4px;
+  color: #777;
+  font-size: 8px;
+  font-weight: 950;
+  letter-spacing: 0.13em;
+}
+
+.summary-value {
+  font-size: 12px;
+  font-weight: 950;
+}
+
+.notice-details {
+  margin-top: 9px;
+  padding: 3px 11px;
+  background: var(--white);
+  border: 1px solid #D5D5D5;
+}
+
+.notice-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 14px;
+  min-height: 39px;
+  border-bottom: 1px solid #E5E5E5;
+  font-size: 11px;
+}
+
+.notice-row:last-child {
+  border-bottom: 0;
+}
+
+.notice-row span {
+  color: #6B6B6B;
+}
+
+.notice-row strong {
+  text-align: right;
+  font-weight: 900;
+}
+
+.passenger-offence {
+  margin-top: 9px;
+  padding: 11px;
+  background: var(--white);
+  border-left: 4px solid var(--black);
+  border-top: 1px solid #D5D5D5;
+  border-right: 1px solid #D5D5D5;
+  border-bottom: 1px solid #D5D5D5;
+}
+
+.passenger-offence p {
+  margin: 0;
+  font-size: 11px;
+  font-weight: 750;
+  line-height: 1.35;
+}
+
+.passenger-fare {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-top: 10px;
+  padding: 13px 12px;
+  background: var(--pantone-109);
+  border: 2px solid var(--black);
+}
+
+.passenger-fare span {
+  font-size: 9px;
+  font-weight: 950;
+  letter-spacing: 0.12em;
+}
+
+.passenger-fare strong {
+  font-size: 27px;
+  font-weight: 950;
+}
+
+.passenger-button {
+  width: 100%;
+  min-height: 45px;
+  margin-top: 10px;
+  border: 2px solid var(--black);
+  background: var(--black);
+  color: var(--white);
+  font-size: 9px;
+  font-weight: 950;
+  letter-spacing: 0.11em;
+}
+
+.passenger-button:active {
+  transform: scale(0.99);
+}
+
+.dispute-message {
+  margin-top: 8px;
+  padding: 10px;
+  background: #EAEAEA;
+  color: #222;
+  font-size: 10px;
+  font-weight: 800;
+  line-height: 1.3;
+  border-left: 4px solid var(--pantone-109);
+}
+
+.passenger-footer {
+  padding: 10px 15px calc(10px + env(safe-area-inset-bottom));
+  color: #777;
+  font-size: 8px;
+  line-height: 1.3;
+  text-align: center;
+}
+
+/* Smaller devices */
+
+@media (max-width: 360px) {
+  .terminal-title-block h1 {
+    font-size: 16px;
+  }
+
+  .bee-logo {
+    width: 128px;
+  }
+
+  .tfgm-logo {
+    width: 108px;
+  }
+
+  .passenger-header-copy h1 {
+    font-size: 24px;
+  }
+}
+
+/* Make the terminal feel intentionally dense when displayed on desktop
+   for testing, while keeping the actual phone layout constrained. */
+@media (min-width: 700px) {
+  .inspector-viewport,
+  .passenger-shell {
+    box-shadow: 0 0 0 1px #333, 0 22px 70px rgba(0, 0, 0, 0.55);
+  }
+}
