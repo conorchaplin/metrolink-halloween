@@ -90,6 +90,19 @@
     if (el) el.hidden = true;
   }
 
+  let clockTimer = null;
+
+  function startLiveClock(prefix) {
+    const update = () => {
+      const now = getUKDateTime();
+      setText(`${prefix}-date`, now.date);
+      setText(`${prefix}-time`, now.time);
+    };
+    update();
+    window.clearInterval(clockTimer);
+    clockTimer = window.setInterval(update, 250);
+  }
+
   /* -------------------------
      PASSENGER
      ------------------------- */
@@ -101,10 +114,8 @@
 
     setText("passenger-ref", data.reference);
 
-    // Capture the real UK date/time when the passenger notice is generated.
-    const issued = getUKDateTime();
-    setText("passenger-date", issued.date);
-    setText("passenger-time", issued.time);
+    // Live UK clock: date and time continue ticking while the notice is displayed.
+    startLiveClock("passenger");
 
     window.setTimeout(() => {
       hide("passenger-processing");
@@ -137,9 +148,7 @@
     setText("inspector-ref", data.reference);
     setText("result-ref", data.reference);
 
-    const initial = getUKDateTime();
-    setText("inspector-date", initial.date);
-    setText("inspector-time", initial.time);
+    startLiveClock("inspector");
 
     document.getElementById("issue-button")?.addEventListener("click", startInspection);
     document.getElementById("reset-button")?.addEventListener("click", resetTerminal);
@@ -198,11 +207,6 @@
     audio?.resume?.();
 
     issuedDateTime = getUKDateTime();
-
-    setText("inspector-date", issuedDateTime.date);
-    setText("inspector-time", issuedDateTime.time);
-    setText("result-date", issuedDateTime.date);
-    setText("result-time", issuedDateTime.time);
 
     setText("system-status", "INSPECTION ACTIVE");
     setText("credential-state", "READING");
@@ -263,6 +267,9 @@
     beep(audio, 520, 0.12, 0.03);
     beep(audio, 780, 0.10, 0.025);
 
+    const resultNow = getUKDateTime();
+    setText("result-date", resultNow.date);
+    setText("result-time", resultNow.time);
     show("result-panel");
     setText("system-status", "SYSTEM READY");
     setText("credential-state", "ISSUED");
@@ -282,10 +289,6 @@
     if (inspectionRunning) return;
 
     hide("result-panel");
-
-    const now = getUKDateTime();
-    setText("inspector-date", now.date);
-    setText("inspector-time", now.time);
 
     setText("system-status", "SYSTEM READY");
     setText("credential-state", "STANDBY");
