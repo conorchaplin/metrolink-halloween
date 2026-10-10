@@ -47,8 +47,11 @@
     }).formatToParts(new Date());
 
     const values = {};
+
     for (const part of parts) {
-      if (part.type !== "literal") values[part.type] = part.value;
+      if (part.type !== "literal") {
+        values[part.type] = part.value;
+      }
     }
 
     return {
@@ -59,10 +62,12 @@
 
   function seededIndex(seed, length) {
     let hash = 0;
+
     for (let i = 0; i < seed.length; i++) {
       hash = ((hash << 5) - hash) + seed.charCodeAt(i);
       hash |= 0;
     }
+
     return Math.abs(hash) % length;
   }
 
@@ -77,17 +82,26 @@
 
   function setText(id, value) {
     const el = document.getElementById(id);
-    if (el) el.textContent = value;
+
+    if (el) {
+      el.textContent = value;
+    }
   }
 
   function show(id) {
     const el = document.getElementById(id);
-    if (el) el.hidden = false;
+
+    if (el) {
+      el.hidden = false;
+    }
   }
 
   function hide(id) {
     const el = document.getElementById(id);
-    if (el) el.hidden = true;
+
+    if (el) {
+      el.hidden = true;
+    }
   }
 
   let clockTimer = null;
@@ -98,6 +112,7 @@
       setText(`${prefix}-date`, now.date);
       setText(`${prefix}-time`, now.time);
     };
+
     update();
     window.clearInterval(clockTimer);
     clockTimer = window.setInterval(update, 250);
@@ -111,25 +126,67 @@
     show("passenger-screen");
 
     const data = getFareData();
-
     setText("passenger-ref", data.reference);
 
-    // Live UK clock: date and time continue ticking while the notice is displayed.
+    // Keep the displayed UK date/time live while the notice is visible.
     startLiveClock("passenger");
 
+    // Show a large, brief penalty alert as soon as the NFC page opens.
+    const intro = document.getElementById("penalty-intro");
+
+    if (intro) {
+      intro.hidden = false;
+      intro.setAttribute("aria-hidden", "false");
+
+      window.setTimeout(() => {
+        intro.classList.add("is-closing");
+
+        window.setTimeout(() => {
+          intro.hidden = true;
+          intro.setAttribute("aria-hidden", "true");
+        }, 350);
+      }, 1350);
+    }
+
+    // Reveal the detailed notice shortly after the opening alert.
     window.setTimeout(() => {
       hide("passenger-processing");
       show("passenger-result");
-    }, 1450);
+    }, 1500);
 
     const disputeButton = document.getElementById("dispute-button");
-    const disputeMessage = document.getElementById("dispute-message");
+    const disputeModal = document.getElementById("dispute-modal");
+    const disputeClose = document.getElementById("dispute-close");
 
-    disputeButton?.addEventListener("click", () => {
-      disputeMessage.textContent =
-        "DISPUTE REQUEST REJECTED. Reason: the Inspector has determined that you are, in fact, a menace to society and a plague upon Manchester.";
-      disputeMessage.hidden = false;
-      disputeButton.disabled = true;
+    function openDisputeModal() {
+      if (!disputeModal) return;
+
+      disputeModal.hidden = false;
+      disputeModal.setAttribute("aria-hidden", "false");
+      disputeClose?.focus();
+    }
+
+    function closeDisputeModal() {
+      if (!disputeModal) return;
+
+      disputeModal.hidden = true;
+      disputeModal.setAttribute("aria-hidden", "true");
+      disputeButton?.focus();
+    }
+
+    disputeButton?.addEventListener("click", openDisputeModal);
+    disputeClose?.addEventListener("click", closeDisputeModal);
+
+    disputeModal?.addEventListener("click", (event) => {
+      if (event.target === disputeModal) {
+        closeDisputeModal();
+      }
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && disputeModal && !disputeModal.hidden) {
+        closeDisputeModal();
+      }
     });
   }
 
@@ -159,6 +216,7 @@
     // This is called from the ISSUE button handler.
     try {
       const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+
       if (!AudioContextClass) return null;
 
       const ctx = new AudioContextClass();
@@ -197,6 +255,7 @@
     if (inspectionRunning) return;
 
     inspectionRunning = true;
+
     const button = document.getElementById("issue-button");
     const reset = document.getElementById("reset-button");
 
@@ -267,10 +326,12 @@
     beep(audio, 520, 0.12, 0.03);
     beep(audio, 780, 0.10, 0.025);
 
-    const resultNow = getUKDateTime();
+    const resultNow = issuedDateTime || getUKDateTime();
+
     setText("result-date", resultNow.date);
     setText("result-time", resultNow.time);
     show("result-panel");
+
     setText("system-status", "SYSTEM READY");
     setText("credential-state", "ISSUED");
     setText("processing-title", "PENALTY FARE ISSUED");
