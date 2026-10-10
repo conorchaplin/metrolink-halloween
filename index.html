@@ -11,103 +11,231 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<main id="app" class="app">
-  <section id="inspector-screen" class="screen inspector-screen" hidden>
-    <div class="inspector-shell">
-      <div class="inspector-passenger-view">
-        <header class="terminal-header">
-          <div class="brand-strip">
-            <img class="bee-logo" src="bee-network.jpg" alt="Bee Network">
-            <img class="tfgm-logo" src="tfgm.png" alt="Transport for Greater Manchester">
+  <main id="app" class="app">
+    <section id="inspector-screen" class="screen inspector-screen" hidden>
+      <div class="inspector-shell">
+        <div class="inspector-passenger-view">
+          <header class="terminal-header">
+            <div class="brand-strip">
+              <img class="bee-logo" src="bee-network.jpg" alt="Bee Network">
+              <img class="tfgm-logo" src="tfgm.png" alt="Transport for Greater Manchester">
+            </div>
+            <div class="terminal-title-block">
+              <div class="eyebrow">REVENUE PROTECTION</div>
+              <h1>BEE NETWORK METROLINK<br>REVENUE PROTECTION</h1>
+              <div class="terminal-meta">
+                <span>INSPECTOR 47291</span>
+                <span>DEVICE RP-07</span>
+              </div>
+            </div>
+          </header>
+
+          <section class="terminal-status">
+            <div class="status-left">
+              <span class="status-light"></span>
+              <span id="system-status">SYSTEM READY</span>
+            </div>
+            <span class="status-code">ONLINE</span>
+          </section>
+
+          <section class="scan-panel">
+            <div class="scan-icon">⌁</div>
+            <div>
+              <div class="scan-label">CONTACTLESS INSPECTION</div>
+              <div id="scan-instruction" class="scan-instruction">PRESENT CARD OR CONTACTLESS DEVICE</div>
+            </div>
+          </section>
+
+          <section class="credential-panel">
+            <div class="panel-heading">
+              <span>JOURNEY CREDENTIAL</span>
+              <span id="credential-state" class="mini-state">STANDBY</span>
+            </div>
+            <div class="credential-grid">
+              <div>
+                <span class="field-label">FARE ZONE</span>
+                <strong>Fare Zone 2</strong>
+              </div>
+              <div>
+                <span class="field-label">REFERENCE</span>
+                <strong id="inspector-ref">MF-7A42K9</strong>
+              </div>
+              <div>
+                <span class="field-label">DATE</span>
+                <strong id="inspector-date">--</strong>
+              </div>
+              <div>
+                <span class="field-label">TIME</span>
+                <strong id="inspector-time">--</strong>
+              </div>
+            </div>
+          </section>
+
+          <section id="processing-panel" class="processing-panel">
+            <div class="processing-top">
+              <span id="processing-title">SYSTEM READY</span>
+              <span id="processing-counter">00.0</span>
+            </div>
+            <div class="progress-track">
+              <div id="progress-bar" class="progress-bar"></div>
+            </div>
+            <div id="processing-message" class="processing-message">Awaiting inspection command.</div>
+          </section>
+
+          <section id="result-panel" class="result-panel" hidden>
+            <div class="result-top">
+              <span class="result-icon">!</span>
+              <div>
+                <div class="result-kicker">AUTOMATED FARE ENFORCEMENT</div>
+                <h2>PENALTY FARE ISSUED</h2>
+              </div>
+            </div>
+            <div class="result-details">
+              <div class="result-row">
+                <span>REFERENCE</span>
+                <strong id="result-ref">MF-7A42K9</strong>
+              </div>
+              <div class="result-row">
+                <span>FARE ZONE</span>
+                <strong>Fare Zone 2</strong>
+              </div>
+              <div class="result-row">
+                <span>DATE</span>
+                <strong id="result-date">--</strong>
+              </div>
+              <div class="result-row">
+                <span>TIME</span>
+                <strong id="result-time">--</strong>
+              </div>
+            </div>
+            <div class="fare-box">
+              <span>PENALTY FARE</span>
+              <strong>£60.00</strong>
+            </div>
+            <div class="offence-box">
+              <span class="field-label">OFFENCE</span>
+              <p>Travelling without a valid travel credential. Disgusting thievery.</p>
+            </div>
+          </section>
+        </div>
+
+        <!-- These controls are deliberately NOT rotated: they face the inspector. -->
+        <div class="inspector-controls">
+          <button id="issue-button" class="primary-button" type="button">ISSUE PENALTY FARE</button>
+          <button id="reset-button" class="secondary-button" type="button" disabled>RESET TERMINAL</button>
+        </div>
+
+        <footer class="terminal-footer">
+          <span>SECURE TERMINAL</span>
+          <span>REV. 2.4.7</span>
+        </footer>
+      </div>
+    </section>
+
+    <section id="passenger-screen" class="screen passenger-screen" hidden>
+      <div class="passenger-shell">
+        <header class="passenger-header">
+          <div class="passenger-brand-row">
+            <img class="passenger-bee-logo" src="bee-network.jpg" alt="Bee Network">
+            <img class="passenger-tfgm-logo" src="tfgm.png" alt="Transport for Greater Manchester">
           </div>
-          <div class="terminal-title-block">
-            <div class="eyebrow">REVENUE PROTECTION</div>
-            <h1>BEE NETWORK METROLINK<br>REVENUE PROTECTION</h1>
-            <div class="terminal-meta"><span>INSPECTOR 47291</span><span>DEVICE RP-07</span></div>
+          <div class="passenger-header-copy">
+            <div class="eyebrow">METROLINK REVENUE PROTECTION</div>
+            <h1>PENALTY FARE<br>NOTICE</h1>
+            <div class="header-rule"></div>
           </div>
         </header>
 
-        <section class="terminal-status">
-          <div class="status-left"><span class="status-light"></span><span id="system-status">SYSTEM READY</span></div>
-          <span class="status-code">ONLINE</span>
+        <section id="passenger-processing" class="passenger-processing">
+          <div class="processing-spinner"></div>
+          <div class="processing-kicker">CONTACTLESS DEVICE DETECTED</div>
+          <h2>Reading journey data</h2>
+          <p>Please wait while the travel credential is verified.</p>
         </section>
 
-        <section class="scan-panel">
-          <div class="scan-icon">⌁</div>
-          <div><div class="scan-label">CONTACTLESS INSPECTION</div><div id="scan-instruction" class="scan-instruction">PRESENT CARD OR CONTACTLESS DEVICE</div></div>
-        </section>
-
-        <section class="credential-panel">
-          <div class="panel-heading"><span>JOURNEY CREDENTIAL</span><span id="credential-state" class="mini-state">STANDBY</span></div>
-          <div class="credential-grid">
-            <div><span class="field-label">FARE ZONE</span><strong>Fare Zone 2</strong></div>
-            <div><span class="field-label">REFERENCE</span><strong id="inspector-ref">MF-7A42K9</strong></div>
-            <div><span class="field-label">DATE</span><strong id="inspector-date">--</strong></div>
-            <div><span class="field-label">TIME</span><strong id="inspector-time">--</strong></div>
+        <section id="passenger-result" class="passenger-result" hidden>
+          <div class="notice-bar">
+            <span class="notice-dot"></span>
+            AUTOMATIC FARE ENFORCEMENT NOTICE
           </div>
-        </section>
 
-        <section id="processing-panel" class="processing-panel">
-          <div class="processing-top"><span id="processing-title">SYSTEM READY</span><span id="processing-counter">00.0</span></div>
-          <div class="progress-track"><div id="progress-bar" class="progress-bar"></div></div>
-          <div id="processing-message" class="processing-message">Awaiting inspection command.</div>
-        </section>
-
-        <section id="result-panel" class="result-panel" hidden>
-          <div class="result-top"><span class="result-icon">!</span><div><div class="result-kicker">AUTOMATED FARE ENFORCEMENT</div><h2>PENALTY FARE ISSUED</h2></div></div>
-          <div class="result-details">
-            <div class="result-row"><span>REFERENCE</span><strong id="result-ref">MF-7A42K9</strong></div>
-            <div class="result-row"><span>FARE ZONE</span><strong>Fare Zone 2</strong></div>
-            <div class="result-row"><span>DATE</span><strong id="result-date">--</strong></div>
-            <div class="result-row"><span>TIME</span><strong id="result-time">--</strong></div>
+          <div class="passenger-title">
+            <div class="warning-symbol">!</div>
+            <div>
+              <div class="eyebrow">REVENUE PROTECTION</div>
+              <h2>PENALTY FARE ISSUED</h2>
+            </div>
           </div>
-          <div class="fare-box"><span>PENALTY FARE</span><strong>£60.00</strong></div>
-          <div class="offence-box"><span class="field-label">OFFENCE</span><p>Travelling without a valid travel credential. Disgusting thievery.</p></div>
+
+          <div class="passenger-summary">
+            <div class="summary-label">PASSENGER</div>
+            <div class="summary-value">CONTACTLESS PASSENGER</div>
+          </div>
+
+          <div class="notice-details">
+            <div class="notice-row">
+              <span>Fare Zone</span>
+              <strong>Fare Zone 2</strong>
+            </div>
+            <div class="notice-row">
+              <span>Reference</span>
+              <strong id="passenger-ref">MF-7A42K9</strong>
+            </div>
+            <div class="notice-row">
+              <span>Date</span>
+              <strong id="passenger-date">--</strong>
+            </div>
+            <div class="notice-row">
+              <span>Time</span>
+              <strong id="passenger-time">--</strong>
+            </div>
+          </div>
+
+          <div class="passenger-offence">
+            <div class="field-label">OFFENCE</div>
+            <p>Travelling without a valid travel credential. Disgusting thievery.</p>
+          </div>
+
+          <div class="passenger-fare">
+            <span>PENALTY FARE</span>
+            <strong>£60.00</strong>
+          </div>
+
+          <button id="dispute-button" class="passenger-button" type="button">DISPUTE PENALTY FARE</button>
         </section>
+
+        <footer class="passenger-footer">Fictional Halloween prop — no payment required.</footer>
       </div>
 
-      <!-- These controls are deliberately NOT rotated: they face the inspector and sit at the bottom/hand side. -->
-      <div class="inspector-controls">
-        <button id="issue-button" class="primary-button" type="button">ISSUE PENALTY FARE</button>
-        <button id="reset-button" class="secondary-button" type="button" disabled>RESET TERMINAL</button>
+      <!-- Initial penalty alert: deliberately short-lived and highly visible. -->
+      <div id="penalty-intro" class="overlay penalty-intro" hidden aria-hidden="true">
+        <div class="penalty-intro-card" role="status" aria-live="polite">
+          <div class="penalty-intro-kicker">AUTOMATIC FARE ENFORCEMENT</div>
+          <div class="penalty-intro-title">PENALTY FARE</div>
+          <div class="penalty-intro-amount">£60</div>
+          <div class="penalty-intro-note">CONTACTLESS JOURNEY REVIEWED</div>
+        </div>
       </div>
-      <footer class="terminal-footer"><span>SECURE TERMINAL</span><span>REV. 2.4.7</span></footer>
-    </div>
-  </section>
 
-  <section id="passenger-screen" class="screen passenger-screen" hidden>
-    <div class="passenger-shell">
-      <header class="passenger-header">
-        <div class="passenger-brand-row">
-          <img class="passenger-bee-logo" src="bee-network.jpg" alt="Bee Network">
-          <img class="passenger-tfgm-logo" src="tfgm.png" alt="Transport for Greater Manchester">
+      <!-- Dispute response: shown as a proper in-page modal rather than text below the button. -->
+      <div id="dispute-modal" class="overlay dispute-overlay" hidden aria-hidden="true">
+        <div class="dispute-modal-card" role="dialog" aria-modal="true" aria-labelledby="dispute-modal-title">
+          <div class="dispute-modal-header">
+            <span class="modal-warning">!</span>
+            <div>
+              <div class="eyebrow">REVENUE PROTECTION</div>
+              <h2 id="dispute-modal-title">DISPUTE REQUEST REJECTED</h2>
+            </div>
+          </div>
+          <div class="dispute-modal-body">
+            <div class="dispute-modal-label">REASON</div>
+            <p>the Inspector has determined that you are, in fact, a menace to society and a plague upon Manchester.</p>
+          </div>
+          <button id="dispute-close" class="dispute-close-button" type="button">CLOSE</button>
         </div>
-        <div class="passenger-header-copy"><div class="eyebrow">METROLINK REVENUE PROTECTION</div><h1>PENALTY FARE<br>NOTICE</h1><div class="header-rule"></div></div>
-      </header>
-
-      <section id="passenger-processing" class="passenger-processing">
-        <div class="processing-spinner"></div><div class="processing-kicker">CONTACTLESS DEVICE DETECTED</div><h2>Reading journey data</h2><p>Please wait while the travel credential is verified.</p>
-      </section>
-
-      <section id="passenger-result" class="passenger-result" hidden>
-        <div class="notice-bar"><span class="notice-dot"></span>AUTOMATIC FARE ENFORCEMENT NOTICE</div>
-        <div class="passenger-title"><div class="warning-symbol">!</div><div><div class="eyebrow">REVENUE PROTECTION</div><h2>PENALTY FARE ISSUED</h2></div></div>
-        <div class="passenger-summary"><div class="summary-label">PASSENGER</div><div class="summary-value">CONTACTLESS PASSENGER</div></div>
-        <div class="notice-details">
-          <div class="notice-row"><span>Fare Zone</span><strong>Fare Zone 2</strong></div>
-          <div class="notice-row"><span>Reference</span><strong id="passenger-ref">MF-7A42K9</strong></div>
-          <div class="notice-row"><span>Date</span><strong id="passenger-date">--</strong></div>
-          <div class="notice-row"><span>Time</span><strong id="passenger-time">--</strong></div>
-        </div>
-        <div class="passenger-offence"><div class="field-label">OFFENCE</div><p>Travelling without a valid travel credential. Disgusting thievery.</p></div>
-        <div class="passenger-fare"><span>PENALTY FARE</span><strong>£60.00</strong></div>
-        <button id="dispute-button" class="passenger-button" type="button">DISPUTE PENALTY FARE</button>
-        <div id="dispute-message" class="dispute-message" hidden></div>
-      </section>
-      <footer class="passenger-footer">Fictional Halloween prop — no payment required.</footer>
-    </div>
-  </section>
-</main>
-<script src="script.js"></script>
+      </div>
+    </section>
+  </main>
+  <script src="script.js"></script>
 </body>
 </html>
