@@ -11,7 +11,7 @@
     The inspector phone uses:
     https://YOURUSERNAME.github.io/halloween-tram/?mode=inspector&ref=MF-7A42K9
 
-    Using the same ref parameter makes the reference identical on both phones.
+    Using the same ref parameter makes the reference on both phones.
   */
   const reference =
     (params.get("ref") || "MF-7A42K9")
@@ -31,7 +31,7 @@
   ];
 
   const offences = [
-    "Travelling without a valid travel credential. Disgusting thievery."
+    "Travelling without a valid travel credential. Thievery."
   ];
 
   function getUKDateTime() {
